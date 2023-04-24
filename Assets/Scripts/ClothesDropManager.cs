@@ -7,30 +7,22 @@ public class ClothesDropManager : MonoBehaviour
     public Transform[] DropPoints;
     public GameObject ClothesPrefab;
     public int times;
-    // Start is called before the first frame update
-    void Start()
-    {
-        Instantiate(ClothesPrefab, DropPoints[3].transform.position, Quaternion.identity);
+
+    int currentDropPoint = 0;
+
+    void Start(){
         StartCoroutine(Sleep());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    //For loop for og spawne klær på positions
     IEnumerator Sleep(){
-        for (int i = 0; i < times; i++)
-         {
-            int index = i;
-            i = index;
-            if (index >= DropPoints.Length)
-            {
-             index = 0; 
+        for(int i = 0; i < times; i++){
+            Instantiate(ClothesPrefab, DropPoints[currentDropPoint].position, Quaternion.identity);
+            if(currentDropPoint == DropPoints.Length - 1){
+                currentDropPoint = 0;
+            }else{
+                currentDropPoint++;
             }
-            Instantiate(ClothesPrefab, DropPoints[index].transform.position, Quaternion.identity);
             yield return new WaitForSeconds(0.1f);
-         }
+        }
     }
 }
