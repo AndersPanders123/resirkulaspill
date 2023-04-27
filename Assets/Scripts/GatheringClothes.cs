@@ -9,10 +9,12 @@ public class GatheringClothes : MonoBehaviour
     public Camera camera;
     public GameObject Shop;
     bool IsTabbed;
+    bool  AllowPickup;
     // Start is called before the first frame update
     void Start()
     {
-         Shop.SetActive(false);   
+        Shop.SetActive(false);   
+        AllowPickup = true;
     }
 
     // Update is called once per frame
@@ -26,16 +28,22 @@ public class GatheringClothes : MonoBehaviour
                 Shop.SetActive(false);
             }
         }
-        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hit, PickupLength)){
+        if(AllowPickup == true && Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hit, PickupLength)){
             if(Hit.transform.tag == "Clothes"){
                 EtoPickUp.SetActive(true);
                 if(Input.GetKeyDown(KeyCode.E)){
                 Destroy(Hit.transform.gameObject);
                 GameManager.ClotesGathered += 1;
+                StartCoroutine(PickupDelay());
                 }
             }else {
                 EtoPickUp.SetActive(false);
             }
         }
+    }
+    IEnumerator PickupDelay(){
+        AllowPickup = false;
+        yield return new WaitForSeconds(GameManager.PickupSpeed);
+        AllowPickup = true;
     }
 }

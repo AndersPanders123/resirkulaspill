@@ -4,15 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
-    public static int ClotesGathered;
+    public static float ClotesGathered;
     public Text ClotesGatheredText;
-    public int Points;
-    public int SpeedPrize;
+    public float Points;
+    public float SpeedPrize;
     public PlayerMovement playerScript; 
+    public static float PickupSpeed;
+    public float PickupSpeedPrize;
     // Start is called before the first frame update
     void Start()
     {
-        
+        PickupSpeed = 1;
+        PickupSpeedPrize = 2;
     }
 
     // Update is called once per frame
@@ -28,8 +31,10 @@ public class GameManager : MonoBehaviour
             playerScript.speed += 1;
         }
     }
-    public void PickupSpeedUpgrade(){
-        
-        
-    }   
+    public void PickupUpgrade(){
+        if(Points >= PickupSpeedPrize){
+            PickupSpeed -= 0.1f;
+            Points -= PickupSpeedPrize;
+        }
+        }   
 }
