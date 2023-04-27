@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static float ClotesGathered;
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour
     public PlayerMovement playerScript; 
     public static float PickupSpeed;
     public float PickupSpeedPrize;
+    public Text PointText;
+    public TextMeshProUGUI PickupSpeedPrizeText;
+    public TextMeshProUGUI SpeedPrizeText;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +26,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         ClotesGatheredText.text = "Clothes Gathered: " + ClotesGathered.ToString();
+        PointText.text = "Points: " + Points.ToString();
+        SpeedPrizeText.text = "Speed +1: " + SpeedPrize.ToString() + "$";
+        PickupSpeedPrizeText.text = "Pickup Speed +1: " + PickupSpeedPrize.ToString() + "$";
     }
     public void SpeedUpgrade(){
         Debug.Log("GameManagerUpgrade");

@@ -10,6 +10,7 @@ public class GatheringClothes : MonoBehaviour
     public GameObject Shop;
     bool IsTabbed;
     bool  AllowPickup;
+    public Animator PlayerAnim;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +35,7 @@ public class GatheringClothes : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.E)){
                 Destroy(Hit.transform.gameObject);
                 GameManager.ClotesGathered += 1;
+                PlayerAnim.SetTrigger("Grab");
                 StartCoroutine(PickupDelay());
                 }
             }else {
