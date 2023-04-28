@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 public class GameManager : MonoBehaviour
 {
-    public static float ClotesGathered;
+    public static float ClothesGathered;
     public Text ClotesGatheredText;
-    public float Points;
+    public static float Points;
     public float SpeedPrize;
     public PlayerMovement playerScript; 
     public static float PickupSpeed;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ClotesGatheredText.text = "Clothes Gathered: " + ClotesGathered.ToString();
+        ClotesGatheredText.text = "Clothes Gathered: " + ClothesGathered.ToString();
         PointText.text = "Points: " + Points.ToString();
         SpeedPrizeText.text = "Speed +1: " + SpeedPrize.ToString() + "$";
         PickupSpeedPrizeText.text = "Pickup Speed +1: " + PickupSpeedPrize.ToString() + "$";

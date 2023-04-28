@@ -11,15 +11,25 @@ public class GatheringClothes : MonoBehaviour
     bool IsTabbed;
     bool  AllowPickup;
     public Animator PlayerAnim;
+    public GameObject EToRecycle;
+    public GameObject ShirtHand;
     // Start is called before the first frame update
     void Start()
     {
         Shop.SetActive(false);   
         AllowPickup = true;
+        EToRecycle.SetActive(false);
+        ShirtHand.SetActive(false);
     }
 
     // Update is called once per frame
     void Update(){
+        if(GameManager.ClothesGathered > 0){
+            ShirtHand.SetActive(true);
+        }else{
+            ShirtHand.SetActive(false);
+        }
+
         if(Input.GetKeyDown(KeyCode.Tab)){
             
             IsTabbed = !IsTabbed;
@@ -34,13 +44,24 @@ public class GatheringClothes : MonoBehaviour
                 EtoPickUp.SetActive(true);
                 if(Input.GetKeyDown(KeyCode.E)){
                 Destroy(Hit.transform.gameObject);
-                GameManager.ClotesGathered += 1;
+                GameManager.ClothesGathered += 1;
                 PlayerAnim.SetTrigger("Grab");
                 StartCoroutine(PickupDelay());
                 }
             }else {
                 EtoPickUp.SetActive(false);
             }
+        }
+        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hits, PickupLength)){
+            if(Hits.transform.tag == "Container"){
+                EToRecycle.SetActive(true);
+                if(Input.GetKeyDown(KeyCode.E)){
+                    GameManager.Points += GameManager.ClothesGathered;
+                    GameManager.ClothesGathered = 0;
+                }
+            }else{
+                    EToRecycle.SetActive(false);
+                }
         }
     }
     IEnumerator PickupDelay(){
