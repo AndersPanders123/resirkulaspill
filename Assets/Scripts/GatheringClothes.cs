@@ -48,6 +48,9 @@ public class GatheringClothes : MonoBehaviour
         }
         if(Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hit, PickupLength)){
             if(Hit.transform.tag == "Clothes"){
+                if(BackPackFull == true && Input.GetKeyDown(KeyCode.E)){
+                    PlayerAnim.SetTrigger("FullPack");
+                }
                 EtoPickUp.SetActive(true);
                 if(BackPackFull == false && AllowPickup == true && Input.GetKeyDown(KeyCode.E)){
                 StartCoroutine(PickupDelay());

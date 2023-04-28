@@ -31,11 +31,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ClotesGatheredText.text = "Clothes Gathered: " + ClothesGathered.ToString();
-        PointText.text = "Points: " + Points.ToString();
-        SpeedPrizeText.text = "Speed +1: " + SpeedPrize.ToString() + " Points";
-        PickupSpeedPrizeText.text = "Pickup Speed +1: " + PickupSpeedPrize.ToString() + " Points";
-        BackPackText.text = "BackPack Size +1: " + BackPackPrize.ToString() + " Points";
+        ClotesGatheredText.text = ClothesGathered.ToString() + "/" + BackPackSize.ToString();
+        PointText.text = ": " + Points.ToString();
+        SpeedPrizeText.text = "Speed P:" + SpeedPrize.ToString();
+        PickupSpeedPrizeText.text = "Pickup Speed P:" + PickupSpeedPrize.ToString();
+        BackPackText.text = "BackPack Size P:" + BackPackPrize.ToString();
 
     }
     public void SpeedUpgrade(){
