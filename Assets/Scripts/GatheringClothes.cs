@@ -13,6 +13,7 @@ public class GatheringClothes : MonoBehaviour
     public Animator PlayerAnim;
     public GameObject EToRecycle;
     public GameObject ShirtHand;
+    bool BackPackFull;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,7 @@ public class GatheringClothes : MonoBehaviour
         AllowPickup = true;
         EToRecycle.SetActive(false);
         ShirtHand.SetActive(false);
+        BackPackFull = false;
     }
 
     // Update is called once per frame
@@ -28,6 +30,11 @@ public class GatheringClothes : MonoBehaviour
             ShirtHand.SetActive(true);
         }else{
             ShirtHand.SetActive(false);
+        }
+        if(GameManager.ClothesGathered < GameManager.BackPackSize){
+            BackPackFull = false;
+        }else{
+            BackPackFull = true;
         }
 
         if(Input.GetKeyDown(KeyCode.Tab)){
@@ -39,14 +46,15 @@ public class GatheringClothes : MonoBehaviour
                 Shop.SetActive(false);
             }
         }
-        if(AllowPickup == true && Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hit, PickupLength)){
+        if(Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hit, PickupLength)){
             if(Hit.transform.tag == "Clothes"){
                 EtoPickUp.SetActive(true);
-                if(Input.GetKeyDown(KeyCode.E)){
+                if(BackPackFull == false && AllowPickup == true && Input.GetKeyDown(KeyCode.E)){
+                StartCoroutine(PickupDelay());
+                AllowPickup = false;
                 Destroy(Hit.transform.gameObject);
                 GameManager.ClothesGathered += 1;
                 PlayerAnim.SetTrigger("Grab");
-                StartCoroutine(PickupDelay());
                 }
             }else {
                 EtoPickUp.SetActive(false);
@@ -59,14 +67,15 @@ public class GatheringClothes : MonoBehaviour
                     GameManager.Points += GameManager.ClothesGathered;
                     GameManager.ClothesGathered = 0;
                 }
-            }else{
+            }
+        }else {
                     EToRecycle.SetActive(false);
-                }
-        }
+            }
     }
     IEnumerator PickupDelay(){
         AllowPickup = false;
-        yield return new WaitForSeconds(GameManager.PickupSpeed);
+        float wait = GameManager.PickupSpeed;
+        yield return new WaitForSeconds(wait);
         AllowPickup = true;
     }
 }
