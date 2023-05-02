@@ -18,6 +18,7 @@ public class GatheringClothes : MonoBehaviour
    public Vector3 firstPosition;
     public Vector3 secondPosition;
     public float moveSpeed = 5f;
+    public AudioSource CoinChing;
 
     private bool isAtFirstPosition = true;
     public GameObject cubeObject;
@@ -37,6 +38,19 @@ public class GatheringClothes : MonoBehaviour
         {
             // Toggle isAtFirstPosition
             isAtFirstPosition = !isAtFirstPosition;
+        }
+        if(isAtFirstPosition == true)
+        {
+           
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            PlayerMovement.Looks = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            PlayerMovement.Looks = false;
         }
 
         // Move towards firstPosition or secondPosition based on isAtFirstPosition
@@ -80,6 +94,8 @@ public class GatheringClothes : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.E)){
                     GameManager.Points += GameManager.ClothesGathered;
                     GameManager.ClothesGathered = 0;
+                    PlayerAnim.SetTrigger("PlusCoin");
+                    StartCoroutine(CoinChingWait());
                 }
             }
         }else {
@@ -91,6 +107,11 @@ public class GatheringClothes : MonoBehaviour
         float wait = GameManager.PickupSpeed;
         yield return new WaitForSeconds(wait);
         AllowPickup = true;
+    }
+    IEnumerator CoinChingWait()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CoinChing.Play();
     }
      
 }
