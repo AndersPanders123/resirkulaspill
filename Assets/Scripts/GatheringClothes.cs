@@ -22,6 +22,8 @@ public class GatheringClothes : MonoBehaviour
 
     private bool isAtFirstPosition = true;
     public GameObject cubeObject;
+
+    public ClothesDropManager clothesScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +83,9 @@ public class GatheringClothes : MonoBehaviour
                 StartCoroutine(PickupDelay());
                 AllowPickup = false;
                 Destroy(Hit.transform.gameObject);
+                ClothesDropManager clothesScript = FindObjectOfType<ClothesDropManager>();
+                clothesScript.ClothesAmount -= 1;
+                PlayerAnim.SetTrigger("PlusClothes");
                 GameManager.ClothesGathered += 1;
                 PlayerAnim.SetTrigger("Grab");
                 }

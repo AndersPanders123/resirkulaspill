@@ -18,9 +18,15 @@ public class GameManager : MonoBehaviour
     public static float BackPackSize;
     public float BackPackPrize;
     public TextMeshProUGUI BackPackText;
+    public TextMeshProUGUI TimerText;
+    public ClothesDropManager clothesScript;
+    public TextMeshProUGUI ClothesToGatherText;
+    public TextMeshProUGUI WavesText;
+    public float Waves;
     // Start is called before the first frame update
     void Start()
     {
+        Waves = 1;
         PickupSpeed = 1;
         PickupSpeedPrize = 2;
         BackPackSize = 5;
@@ -31,6 +37,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ClothesDropManager clothesScript = FindObjectOfType<ClothesDropManager>();
+         ClothesToGatherText.text = "Clothes Left: " + clothesScript.ClothesAmount.ToString();
+        if(clothesScript.ClothesAmount <= 0){
+            clothesScript.Spawn();
+            Timer.Timers += 40;
+            Waves += 1;
+        }
+        WavesText.text = "Wave: " + Waves.ToString();
+
+        TimerPart();
+        TimerText.text = "Time Left: " + Timer.Timers.ToString();
         ClotesGatheredText.text = ClothesGathered.ToString() + "/" + BackPackSize.ToString();
         PointText.text = ": " + Points.ToString();
         SpeedPrizeText.text = "Speed P:" + SpeedPrize.ToString();
@@ -58,4 +75,10 @@ public class GameManager : MonoBehaviour
             BackPackSize += 1;
         }
     } 
+    public void TimerPart(){
+        if(Timer.Timers <= 0){
+            PlayerMovement.Looks = false;
+            Timer.stopTimer = true;
+        }
+    }
 }
