@@ -24,9 +24,13 @@ public class GatheringClothes : MonoBehaviour
     public GameObject cubeObject;
 
     public ClothesDropManager clothesScript;
+    public Animator UIAnim;
+    public Animator ClothesAnim;
+    
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.CoinPerRec = 0;
         AllowPickup = true;
         EToRecycle.SetActive(false);
         ShirtHand.SetActive(false);
@@ -85,7 +89,7 @@ public class GatheringClothes : MonoBehaviour
                 Destroy(Hit.transform.gameObject);
                 ClothesDropManager clothesScript = FindObjectOfType<ClothesDropManager>();
                 clothesScript.ClothesAmount -= 1;
-                PlayerAnim.SetTrigger("PlusClothes");
+                ClothesAnim.SetTrigger("PlusClothes");
                 GameManager.ClothesGathered += 1;
                 PlayerAnim.SetTrigger("Grab");
                 }
@@ -96,10 +100,10 @@ public class GatheringClothes : MonoBehaviour
         if(Physics.Raycast(camera.transform.position, camera.transform.forward, out RaycastHit Hits, PickupLength)){
             if(Hits.transform.tag == "Container"){
                 EToRecycle.SetActive(true);
-                if(Input.GetKeyDown(KeyCode.E)){
-                    GameManager.Points += GameManager.ClothesGathered;
+                if(GameManager.ClothesGathered > 0 && Input.GetKeyDown(KeyCode.E)){
+                    GameManager.Points += GameManager.ClothesGathered + GameManager.CoinPerRec;
                     GameManager.ClothesGathered = 0;
-                    PlayerAnim.SetTrigger("PlusCoin");
+                    UIAnim.SetTrigger("PlusCoin");
                     StartCoroutine(CoinChingWait());
                 }
             }
@@ -115,7 +119,7 @@ public class GatheringClothes : MonoBehaviour
     }
     IEnumerator CoinChingWait()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         CoinChing.Play();
     }
      

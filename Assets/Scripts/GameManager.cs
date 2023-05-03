@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI ClothesToGatherText;
     public TextMeshProUGUI WavesText;
     public float Waves;
+    public float CoinPerRecUpgradePrize;
+    public TextMeshProUGUI CoinPerRecText;
+    public static float CoinPerRec;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +34,14 @@ public class GameManager : MonoBehaviour
         PickupSpeedPrize = 2;
         BackPackSize = 5;
         ClothesGathered = 0;
+        CoinPerRec = 0;
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        CoinPerRecText.text = "Coins Per Recycle P:" + CoinPerRecUpgradePrize.ToString();
         ClothesDropManager clothesScript = FindObjectOfType<ClothesDropManager>();
          ClothesToGatherText.text = "Clothes Left: " + clothesScript.ClothesAmount.ToString();
         if(clothesScript.ClothesAmount <= 0){
@@ -79,6 +84,14 @@ public class GameManager : MonoBehaviour
         if(Timer.Timers <= 0){
             PlayerMovement.Looks = false;
             Timer.stopTimer = true;
+        }
+    }
+    public void CoinPerRecUpgrade()
+    {
+        if(Points >= CoinPerRecUpgradePrize)
+        {
+            CoinPerRec += 1;
+            Points -= CoinPerRecUpgradePrize;
         }
     }
 }
