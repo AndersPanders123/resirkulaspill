@@ -35,9 +35,15 @@ public class GameManager : MonoBehaviour
     public float recyclelevel;
     public float pickuplevel;
     public float backpacklevel;
+    public bool Addmoney;
+    public GameObject Settings;
+    bool sett;
     // Start is called before the first frame update
     void Start()
     {
+        sett = false;
+        Settings.SetActive(false);
+        Addmoney = false;
         speedlevel = 1;
         recyclelevel = 1;
         pickuplevel = 1;
@@ -55,6 +61,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Addmoney)
+        {
+            Points += 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            
+            sett = !sett;
+            if (sett)
+            {
+                Settings.SetActive(true);
+            }
+            else
+            {
+                Settings.SetActive(false);
+            }
+        }
         levelbackpack.text = "Level: " + backpacklevel.ToString();
         levelpickup.text = "Level: " + pickuplevel.ToString();
         levelrecycle.text = "Level: " + recyclelevel.ToString();
@@ -85,21 +108,24 @@ public class GameManager : MonoBehaviour
             Points -= SpeedPrize;
             PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
             playerScript.speed += 1;
-            SpeedPrize *= 2;
+            SpeedPrize = Mathf.Round(SpeedPrize * 1.5f);
+            speedlevel += 1;
         }
     }
     public void PickupUpgrade(){
         if(Points >= PickupSpeedPrize){
             Points -= PickupSpeedPrize;
             PickupSpeed -= 0.1f;
-            PickupSpeedPrize *= 2;
+            PickupSpeedPrize = Mathf.Round(PickupSpeedPrize * 1.5f);
+            pickuplevel += 1;
         }
     }
     public void BackPackSizeUpgrade(){
         if(Points >= BackPackPrize){
             Points -= BackPackPrize;
-            BackPackPrize *= 2;
+            BackPackPrize = Mathf.Round(BackPackPrize * 1.5f);
             BackPackSize += 1;
+            backpacklevel += 1;
         }
     } 
     public void TimerPart(){
@@ -115,7 +141,8 @@ public class GameManager : MonoBehaviour
         {
             CoinPerRec += 1;
             Points -= CoinPerRecUpgradePrize;
-            CoinPerRecUpgradePrize *= 2;
+            CoinPerRecUpgradePrize = Mathf.Round(CoinPerRecUpgradePrize * 1.5f);
+            recyclelevel += 1;
         }
     }
 }
