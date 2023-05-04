@@ -26,9 +26,23 @@ public class GameManager : MonoBehaviour
     public float CoinPerRecUpgradePrize;
     public TextMeshProUGUI CoinPerRecText;
     public static float CoinPerRec;
+    public float timeplus;
+    public TextMeshProUGUI levelspeed;
+    public TextMeshProUGUI levelrecycle;
+    public TextMeshProUGUI levelpickup;
+    public TextMeshProUGUI levelbackpack;
+    public float speedlevel;
+    public float recyclelevel;
+    public float pickuplevel;
+    public float backpacklevel;
     // Start is called before the first frame update
     void Start()
     {
+        speedlevel = 1;
+        recyclelevel = 1;
+        pickuplevel = 1;
+        backpacklevel = 1;
+        timeplus = 50;
         Waves = 1;
         PickupSpeed = 1;
         PickupSpeedPrize = 2;
@@ -41,13 +55,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        levelbackpack.text = "Level: " + backpacklevel.ToString();
+        levelpickup.text = "Level: " + pickuplevel.ToString();
+        levelrecycle.text = "Level: " + recyclelevel.ToString();
+        levelspeed.text = "Level: " + speedlevel.ToString();
         CoinPerRecText.text = "Coins Per Recycle P:" + CoinPerRecUpgradePrize.ToString();
         ClothesDropManager clothesScript = FindObjectOfType<ClothesDropManager>();
          ClothesToGatherText.text = "Clothes Left: " + clothesScript.ClothesAmount.ToString();
         if(clothesScript.ClothesAmount <= 0){
             clothesScript.Spawn();
-            Timer.Timers += 40;
+            Timer.Timers += timeplus;
             Waves += 1;
+            timeplus -= 1;
         }
         WavesText.text = "Wave: " + Waves.ToString();
 
@@ -66,17 +85,20 @@ public class GameManager : MonoBehaviour
             Points -= SpeedPrize;
             PlayerMovement playerScript = FindObjectOfType<PlayerMovement>();
             playerScript.speed += 1;
+            SpeedPrize *= 2;
         }
     }
     public void PickupUpgrade(){
         if(Points >= PickupSpeedPrize){
-            PickupSpeed -= 0.1f;
             Points -= PickupSpeedPrize;
+            PickupSpeed -= 0.1f;
+            PickupSpeedPrize *= 2;
         }
     }
     public void BackPackSizeUpgrade(){
         if(Points >= BackPackPrize){
             Points -= BackPackPrize;
+            BackPackPrize *= 2;
             BackPackSize += 1;
         }
     } 
@@ -84,6 +106,7 @@ public class GameManager : MonoBehaviour
         if(Timer.Timers <= 0){
             PlayerMovement.Looks = false;
             Timer.stopTimer = true;
+            PlayerMovement.deads = true;
         }
     }
     public void CoinPerRecUpgrade()
@@ -92,6 +115,7 @@ public class GameManager : MonoBehaviour
         {
             CoinPerRec += 1;
             Points -= CoinPerRecUpgradePrize;
+            CoinPerRecUpgradePrize *= 2;
         }
     }
 }

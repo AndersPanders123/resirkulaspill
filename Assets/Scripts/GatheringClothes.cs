@@ -44,19 +44,21 @@ public class GatheringClothes : MonoBehaviour
         {
             // Toggle isAtFirstPosition
             isAtFirstPosition = !isAtFirstPosition;
+            PlayerMovement.Looks = !PlayerMovement.Looks;
         }
         if(isAtFirstPosition == true)
         {
-           
+           if(PlayerMovement.deads == false){
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            PlayerMovement.Looks = true;
+           }
+            
         }
         else
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            PlayerMovement.Looks = false;
+            
         }
 
         // Move towards firstPosition or secondPosition based on isAtFirstPosition
