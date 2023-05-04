@@ -15,7 +15,7 @@ public class GatheringClothes : MonoBehaviour
     public GameObject ShirtHand;
     bool BackPackFull;
    
-   public Vector3 firstPosition;
+    public Vector3 firstPosition;
     public Vector3 secondPosition;
     public float moveSpeed = 5f;
     public AudioSource CoinChing;
