@@ -43,11 +43,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< Updated upstream
+
         SpeedPrize = 2;
-=======
+
         Points = 0;
->>>>>>> Stashed changes
+
         sett = false;
         Settings.SetActive(false);
         Addmoney = false;
