@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         recyclelevel = 1;
         pickuplevel = 1;
         backpacklevel = 1;
-        timeplus = 50;
+        timeplus = 90;
         Waves = 1;
         PickupSpeed = 1;
         PickupSpeedPrize = 2;
@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour
             sett = !sett;
             if (sett)
             {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
                 Settings.SetActive(true);
             }
             else
@@ -89,7 +91,7 @@ public class GameManager : MonoBehaviour
             clothesScript.Spawn();
             Timer.Timers += timeplus;
             Waves += 1;
-            timeplus -= 1;
+            timeplus -= 4;
         }
         WavesText.text = "Wave: " + Waves.ToString();
 
