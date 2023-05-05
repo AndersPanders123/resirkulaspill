@@ -26,6 +26,9 @@ public class GatheringClothes : MonoBehaviour
     public ClothesDropManager clothesScript;
     public Animator UIAnim;
     public Animator ClothesAnim;
+    public bool closed;
+
+    public AudioSource ClothesGrabeffect;
     
     // Start is called before the first frame update
     void Start()
@@ -45,7 +48,7 @@ public class GatheringClothes : MonoBehaviour
             // Toggle isAtFirstPosition
             isAtFirstPosition = !isAtFirstPosition;
             PlayerMovement.Looks = !PlayerMovement.Looks;
-        }
+
         if(isAtFirstPosition == true)
         {
            if(PlayerMovement.deads == false){
@@ -54,12 +57,13 @@ public class GatheringClothes : MonoBehaviour
            }
             
         }
-        else
-        {
+        if(isAtFirstPosition == false){
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            
         }
+        }
+        
+        
 
         // Move towards firstPosition or secondPosition based on isAtFirstPosition
         // Move towards firstPosition or secondPosition based on isAtFirstPosition
@@ -94,6 +98,7 @@ public class GatheringClothes : MonoBehaviour
                 ClothesAnim.SetTrigger("PlusClothes");
                 GameManager.ClothesGathered += 1;
                 PlayerAnim.SetTrigger("Grab");
+                ClothesGrabeffect.Play();
                 }
             }else {
                 EtoPickUp.SetActive(false);
