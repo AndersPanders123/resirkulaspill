@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Looks = true;
+        speed = 50;
     }
 
     // Update is called once per frame
